@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { UserController } from "../controllers/userController";
 
 class userRouter {
   public router: Router;
@@ -12,9 +13,7 @@ class userRouter {
   }
 
   getRoutes() {
-    this.router.get("/login", (req, res) => {
-      res.send("Login API called...");
-    });
+    this.router.get("/login", UserController.login);
   }
 
   postRoutes() {}
