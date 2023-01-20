@@ -9,13 +9,15 @@ export class Server {
   constructor() {
     this.setConfigurations();
     this.setRoutes();
+    this.error404Handler();
+    this.handleErrors();
   }
 
   setConfigurations() {
-    this.setMongodb();
+    this.setMongoDB();
   }
 
-  setMongodb() {
+  setMongoDB() {
     mongoose.set("strictQuery", true);
     mongoose
       .connect(getEnvironmentVariables().db_url)
@@ -29,5 +31,24 @@ export class Server {
 
   setRoutes() {
     this.app.use("/api/user", userRouter);
+  }
+
+  error404Handler() {
+    this.app.use((req, res) => {
+      res.status(404).json({
+        message: "Not Found",
+        status_code: 404,
+      });
+    });
+  }
+
+  handleErrors() {
+    this.app.use((error, req, res, next) => {
+      const errorStatus = req.errorStatus || 500;
+      res.status(errorStatus).json({
+        message: error.message || "Someting went wrong, please try again",
+        status_code: errorStatus,
+      });
+    });
   }
 }

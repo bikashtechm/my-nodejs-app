@@ -1,5 +1,6 @@
 export class UserController {
-  static login(req, res) {
-    res.send("User Login API called..");
+  static login(req, res, next) {
+    const error = new Error("Username and Password Incorrect");
+    next(error);
   }
 }
