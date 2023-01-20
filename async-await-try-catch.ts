@@ -1,3 +1,5 @@
+//let obj1 = { firstName: "Bikash", lastName: "Shaw", gender: "Male" };
+
 function isBreadAvailable() {
   return true;
 }
