@@ -2,6 +2,7 @@ import * as express from "express";
 import * as mongoose from "mongoose";
 import { getEnvironmentVariables } from "./environments/env";
 import userRouter from "./routers/userRouter";
+import bodyParser = require("body-parser");
 
 export class Server {
   public app: express.Application = express();
@@ -14,10 +15,11 @@ export class Server {
   }
 
   setConfigurations() {
-    this.setMongoDB();
+    this.connectMongodb();
+    this.configureBodyParser();
   }
 
-  setMongoDB() {
+  connectMongodb() {
     mongoose.set("strictQuery", true);
     mongoose
       .connect(getEnvironmentVariables().db_url)
@@ -27,6 +29,10 @@ export class Server {
       .catch((e) => {
         console.log(e);
       });
+  }
+
+  configureBodyParser() {
+    this.app.use(bodyParser.urlencoded({ extended: true }));
   }
 
   setRoutes() {

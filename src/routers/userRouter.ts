@@ -13,7 +13,7 @@ class userRouter {
   }
 
   getRoutes() {
-    this.router.get("/login", UserController.login);
+    this.router.post("/login", UserController.login);
   }
 
   postRoutes() {}
